@@ -5,11 +5,13 @@
 #    Feb 25, 2017 07:24:37 PM
 #    Feb 25, 2017 11:35:57 PM
 
-
-import sys
+from __future__ import division
+import sys, os
 import math
 import time
 from pprint import pprint
+
+
 
 try:
     from Tkinter import *
@@ -48,13 +50,7 @@ def set_Tk_var():
     global feedrate
     feedrate = DoubleVar() 
 
-    axial_length.set(220.0)
-    printbed_diameter.set(10.0)
-    final_diameter.set(12.0)
-    filament_width_og.set(1.0)
-    helix_angle.set(45)
-    smear_factor.set(100)
-    feedrate.set(300)
+    
 
 def tpg(p1,p2,p3,p4,p5,p6):
     print('tpg_gui_support.tpg')
@@ -162,10 +158,21 @@ def end_gcode():
     commands.append("; End g code")
     print "\n".join(commands)
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    file = open(timestr+'_skeleprint_gcode.gcode' , 'w')
-    file.write("\n".join(commands))
+    
+    loc = os.path.join(os.path.expanduser("~"), "Desktop/gcode")
+    filename = timestr+'_skeleprint_gcode.gcode'
 
-def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, helix_angle, smear_factor):
+    if not os.path.exists(loc):
+        try:
+            os.makedirs(loc)
+        except OSError as exc: # Guard against race condition
+            print "OH FUCKKKKK"
+            if exc.errno != errno.EEXIST:
+                raise
+    with open(loc+"/"+filename, "w") as file:
+        file.write("\n".join(commands))
+
+def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, helix_angle, smear_factor, feedrate):
 
     """
     Generates g-code for printing cylinders at various angles
@@ -180,18 +187,18 @@ def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, heli
     
     all units are in mm and degrees
     """
-    feedrate = 300  #300 mm/min
+    
+    smear_factor = smear_factor * 0.01
+    print "smear factor", smear_factor
     init_gcode(feedrate)
 
-    smear_factor = smear_factor * 0.1
-
-    layers = 0.5 * ((final_diameter - printbed_diameter)/(filament_width_og * smear_factor))
+    layers = ((final_diameter - printbed_diameter)*0.5)/(filament_width_og * smear_factor)
     if (layers < 1):
-        layers = 1
+        layers = 1.0
 
-    if (layers % 2 != 0 ):
+    if (layers % (filament_width_og*smear_factor) != 0):
         layers = math.floor(layers)
-        print "The print diameter you've set is not symmetrical and has been rounded to {} layers".format(layers)
+        print "The print diameter you've set is not symmetrical and has been rounded to {} mm, with {} layers".format(final_diameter-filament_width_og ,layers)
 
     print "layers:", layers
 
