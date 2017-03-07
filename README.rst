@@ -31,7 +31,8 @@ Installing Python
 
 SkelePrint UI relies on python for processing. If you already have Python installed, you can skip ahead to the next step. 
 
-Mac OSX
+Mac OSX:
+
 .. code-block:: bash
 
     $ brew install python
