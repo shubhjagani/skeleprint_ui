@@ -45,7 +45,7 @@ Windows
 Installing pip
 --------------
 
-Download and save `get-pip.py.`_
+Download and save `get-pip.py`_
 
 Open up Python IDE or Terminal, cd into the folder with the downloaded file and run the following command:
 
@@ -81,14 +81,13 @@ The interface was designed using tkinter for Python.
 Authors
 -------
 
-`Shubh Jagani`_  (`@shubhjagani`_) created SkelePrint UI and `these fine people`_
-have contributed.
+`SkelePrint`_
 
 
 .. _pip: https://pip.pypa.io/en/stable/installing/
 .. _Python IDE: https://www.python.org/downloads/release/python-2713/
 .. _get-pip.py: https://bootstrap.pypa.io/get-pip.py/
-.. _these fine people: http://skeleprint.ca
+.. _SkelePrint: http://skeleprint.ca
 
 
 
