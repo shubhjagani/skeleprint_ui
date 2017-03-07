@@ -86,7 +86,7 @@ Authors
 
 .. _pip: https://pip.pypa.io/en/stable/installing/
 .. _Python IDE: https://www.python.org/downloads/release/python-2713/
-.. _get-pip.py: https://bootstrap.pypa.io/get-pip.py/
+.. _get-pip.py: https://bootstrap.pypa.io/get-pip.py
 .. _SkelePrint: http://skeleprint.ca
 
 
