@@ -6,7 +6,7 @@ The SkelePrint user interface allows you to generate g code for the SkelePrint 3
 
 .. class:: no-web
 
-    .. image:: https://raw.githubusercontent.com/shubhjagani/skeleprint_ui/master/screen_shot.png
+    .. image:: https://raw.githubusercontent.com/shubhjagani/skeleprint_ui/skeleprint_ui/screen_shot.png
         :alt: SkelePrint UI
         :width: 100%
         :align: center
