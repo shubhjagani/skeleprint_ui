@@ -98,6 +98,7 @@ def init_gcode(feedrate):
     """This methods initializes the gcode and sets the feedrate (movement speed of the axis)
     """
 
+    commands.append(";----------------------")
     commands.append(";Start G Code")
     commands.append("G1 F{:.3f}".format(feedrate))
     #commands.append("G1 X{:.5f} Y{:.5f}").format(0, 0)
@@ -187,10 +188,17 @@ def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, heli
     
     all units are in mm and degrees
     """
-    
+    commands.append(";PARAMETERS")
+    commands.append(";Filament Width: {} mm".format(filament_width_og))
+    commands.append(";Axial Travel: {} mm".format(axial_travel))
+    commands.append(";Printbed Diameter: {} mm".format(printbed_diameter))
+    commands.append(";Final Print Diameter: {} mm".format(final_diameter))
+    commands.append(";Feedrate: {} mm/min".format(feedrate))
+
+
     smear_factor = smear_factor * 0.01
     print "smear factor", smear_factor
-    init_gcode(feedrate)
+    
 
     layers = ((final_diameter - printbed_diameter)*0.5)/(filament_width_og * smear_factor)
     if (layers < 1):
@@ -201,6 +209,7 @@ def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, heli
         print "The print diameter you've set is not symmetrical and has been rounded to {} mm, with {} layers".format(final_diameter-filament_width_og ,layers)
 
     print "layers:", layers
+    commands.append(";Layers: {} layers".format(layers))
 
     print "original helix angle:", helix_angle 
     
@@ -216,9 +225,10 @@ def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, heli
     if (theta <= min_angle):  #print a single helix as close together as possible
         theta = min_angle
 
+    commands.append(";Helix Angle: {} degrees".format((theta * 180)/math.pi))
 
     current_layer = 1
-
+    init_gcode(feedrate)
     while (current_layer <= layers):
         
         print "Layer: ", current_layer
