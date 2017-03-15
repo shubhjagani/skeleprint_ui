@@ -34,18 +34,19 @@ SkelePrint UI relies on python for processing. If you already have Python instal
 Mac OSX:
 
 .. code-block:: bash
-
     sudo brew install python
 
-You may be asked to enter your password
+You may be asked to enter your password.
 
 If you do not have homebrew installed, open up terminal and type:
 
 .. code-block:: bash
 	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+Installing homebrew may take a few minutes.
 
-Windows
+
+Windows:
 
 Download and install the Python IDE using the link below:
 
@@ -72,13 +73,14 @@ Installing SkelePrint UI
 ------------------------
 
 A universal installation method (that works on Windows, Mac OS X, Linux, …,
-and always provides the latest version) is to use `pip`_. All you have to do now is open terminal or command prompt and type: 
+and always provides the latest version) is to use `pip`_. 
 
+All you have to do now is open terminal or command prompt and type: 
 
 .. code-block:: bash
-
     # Make sure we have an up-to-date version of pip and setuptools:
-    $ pip install --upgrade skeleprint_ui
+    
+    pip install --upgrade skeleprint_ui
 
 
 Running SkelePrint UI
@@ -88,9 +90,9 @@ After having successfully installed skeleprint_ui package simply open up termina
 
 .. code-block:: bash
 
-    $ python
+    python
 
-    $ import skeleprint_ui
+    import skeleprint_ui
 
 A shortcut will be created on your desktop with the filename : SkelePrint_UI.pyc 
 
