@@ -35,10 +35,19 @@ Mac OSX:
 
 .. code-block:: bash
 
-    $ brew install python
+    sudo brew install python
+
+You may be asked to enter your password
+
+If you do not have homebrew installed, open up terminal and type:
+
+.. code-block:: bash
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 
 Windows
+
+Download and install the Python IDE using the link below:
 
 `Python IDE`_
 
@@ -46,20 +55,24 @@ Windows
 Installing pip
 --------------
 
-Download and save `get-pip.py`_
+Download and save `get-pip.py`_ into any folder 
 
 Open up Python IDE or Terminal, cd into the folder with the downloaded file and run the following command:
 
 .. code-block:: bash
 
-    $ python get-pip.py
+    cd ./Downloads/ 
+
+    sudo python get-pip.py
+
+You can also open the get-pip.py using Python IDE and run the script  
 
 
 Installing SkelePrint UI
 ------------------------
 
 A universal installation method (that works on Windows, Mac OS X, Linux, …,
-and always provides the latest version) is to use `pip`_:
+and always provides the latest version) is to use `pip`_. All you have to do now is open terminal or command prompt and type: 
 
 
 .. code-block:: bash
@@ -68,7 +81,20 @@ and always provides the latest version) is to use `pip`_:
     $ pip install --upgrade skeleprint_ui
 
 
+Running SkelePrint UI
+----------------------
 
+After having successfully installed skeleprint_ui package simply open up terminal or command prompt and type:
+
+.. code-block:: bash
+
+    $ python
+
+    $ import skeleprint_ui
+
+A shortcut will be created on your desktop with the filename : SkelePrint_UI.pyc 
+
+You can now execute this file to run the tool path generator. 
 
 Meta
 ====

@@ -94,63 +94,76 @@ def angle_finder(num_start_points, circumference, filament_width):
     
     return theta
 
-def init_gcode(feedrate):
+def init_layer(feedrate, current_layer, printbed_diameter, filament_width_og, layer_diameter):
     """This methods initializes the gcode and sets the feedrate (movement speed of the axis)
     """
 
     commands.append(";----------------------")
-    commands.append(";Start G Code")
-    commands.append("G1 F{:.3f}".format(feedrate))
-    #commands.append("G1 X{:.5f} Y{:.5f}").format(0, 0)
+    commands.append("; layer {}".format(current_layer))
+    commands.append(";----------------------")
+    start_diameter = printbed_diameter + filament_width_og
+    layer_feedrate = feedrate * (start_diameter/layer_diameter)
+    commands.append("G1 F{:.5f}".format(layer_feedrate))
 
-def main_gcode(current_layer, filament_width,x2, y, n, layer_height):
+def main_gcode(current_layer, filament_width,x2, y, n, layer_height, base_case, printbed_diameter):
     """This methods prints the gcode for each layer
     """
     increment_size = 1/n    
-    
-    commands.append(";----------------------")
-    commands.append("; layer {}".format(current_layer))
-    commands.append(";----------------------")
+    mm_per_rev = math.pi * printbed_diameter   
 
     a = 0
+    #print "current layer", current_layer
+    #print "filament width", filament_width
+    # print "increment", increment_size
+    # print "n", n
+    # print "y", y
+    # print "layer height", layer_height
+
     commands.append("G0 Z{:.5f}".format(current_layer * (layer_height)))
     if (current_layer %2  == 1):
-        commands.append("G0 X{:.5f} Y{:.5f}".format(0, 0))
+        commands.append("G0 X{:.5f} Y{:.5f}".format(0, mm_per_rev*0))
     else:
-         commands.append("G0 X{:.5f} Y{:.5f}".format(x2, y))
+         commands.append("G0 X{:.5f} Y{:.5f}".format(x2, mm_per_rev*y))
 
-    while (a/n < 1-increment_size and (current_layer-1) % 2 == 0):
+    if (base_case and (current_layer+1) % 2 == 0):
+        commands.append("G1 X{:.5f} Y{:.5f}".format(x2, mm_per_rev*y))
+
+    if (base_case and (current_layer+1) % 2 == 1):
+        commands.append("G1 X{:.5f} Y{:.5f}".format(0, mm_per_rev*0))
+
+    while (a/n < 1-increment_size and (current_layer+1) % 2 == 0):
+        # print "in forward loop "
         #print "start point", a
         #print "winding ratio", (a/n)
-        commands.append("G1 X{:.5f} Y{:.5f}".format(x2, (y+(a/n))))
+        commands.append("G1 X{:.5f} Y{:.5f}".format(x2, mm_per_rev*(y+(a/n))))
         a += 1
         #print "start point", a
         #print "winding ratio", (a/n)
-        commands.append("G1 Y{:.5f}".format((y+(a/n))))
-        commands.append("G1 X{:.5f} Y{:.5f}".format(0, (a/n)))
+        commands.append("G1 Y{:.5f}".format(mm_per_rev*(y+(a/n))))
+        commands.append("G1 X{:.5f} Y{:.5f}".format(0, mm_per_rev*(a/n)))
         a += 1
         #print "start point", a
         #print "winding ratio", (a/n)
-        commands.append("G1 Y{:.5f}".format((a/n)))
+        commands.append("G1 Y{:.5f}".format(mm_per_rev*(a/n)))
 
-    while (a/n < 1-increment_size and (current_layer-1) % 2 == 1):
-
+    while (a/n < 1-increment_size and (current_layer+1) % 2 == 1):
+        # print "in reverse loop "
         #print "start point", a
         #print "winding ratio", (a/n)
         
-        commands.append("G1 X{:.5f} Y{:.5f}".format(0, ((a/n))))
+        commands.append("G1 X{:.5f} Y{:.5f}".format(0, mm_per_rev*((a/n))))
         a += 1
         #print "start point", a
         #print "winding ratio", (a/n)
         
-        commands.append("G1 Y{:.5f}".format(((a/n))))
-        commands.append("G1 X{:.5f} Y{:.5f}".format(x2, y+(a/n)))
+        commands.append("G1 Y{:.5f}".format(mm_per_rev*(a/n)))
+        commands.append("G1 X{:.5f} Y{:.5f}".format(x2, mm_per_rev*(y+(a/n))))
 
         a += 1
         
         #print "start point", a
         #print "winding ratio", (a/n)
-        commands.append("G1 Y{:.5f}".format(y+(a/n)))
+        commands.append("G1 Y{:.5f}".format(mm_per_rev*(y+(a/n))))
 
 def end_gcode():
     commands.append(";----------------------")
@@ -189,11 +202,11 @@ def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, heli
     all units are in mm and degrees
     """
     commands.append(";PARAMETERS")
-    commands.append(";Filament Width: {} mm".format(filament_width_og))
-    commands.append(";Axial Travel: {} mm".format(axial_travel))
-    commands.append(";Printbed Diameter: {} mm".format(printbed_diameter))
-    commands.append(";Final Print Diameter: {} mm".format(final_diameter))
-    commands.append(";Feedrate: {} mm/min".format(feedrate))
+    commands.append(";filament_width={}".format(filament_width_og))
+    commands.append(";axial_travel={}".format(axial_travel))
+    commands.append(";printbed_diameter={}".format(printbed_diameter))
+    commands.append(";final_diameter={}".format(final_diameter))
+    commands.append(";adjusted feedrate={}".format(feedrate))
 
 
     smear_factor = smear_factor * 0.01
@@ -209,7 +222,7 @@ def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, heli
         print "The print diameter you've set is not symmetrical and has been rounded to {} mm, with {} layers".format(final_diameter-filament_width_og ,layers)
 
     print "layers:", layers
-    commands.append(";Layers: {} layers".format(layers))
+    commands.append(";layers={}".format(layers))
 
     print "original helix angle:", helix_angle 
     
@@ -221,18 +234,21 @@ def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, heli
 
     theta = helix_angle * math.pi/180 #convert degrees to radians
     #print "theta (rads):", theta 
-    
+    base_case = False
+
     if (theta <= min_angle):  #print a single helix as close together as possible
         theta = min_angle
+        base_case = True
 
-    commands.append(";Helix Angle: {} degrees".format((theta * 180)/math.pi))
+    print "base case", base_case
+    commands.append(";helix_angle={}".format((theta * 180)/math.pi))
 
     current_layer = 1
-    init_gcode(feedrate)
     while (current_layer <= layers):
         
         print "Layer: ", current_layer
         layer_diameter = printbed_diameter + (current_layer * filament_width_og)
+        print "layer diameter", layer_diameter 
         circumference = math.pi * layer_diameter          
         print "circumference", circumference
         
@@ -266,7 +282,9 @@ def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, heli
         y = axial_travel/x_move_per_rev         
         print "revs per winding:", y
         
-        main_gcode(current_layer, filament_width, x2, y, n, filament_width_og * smear_factor)
+
+        init_layer(feedrate, current_layer, printbed_diameter, filament_width_og, layer_diameter)
+        main_gcode(current_layer, filament_width, x2, y, n, filament_width_og * smear_factor, base_case, printbed_diameter)
         current_layer += 1
     
     end_gcode()
