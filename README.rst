@@ -31,7 +31,7 @@ Installing Python
 
 SkelePrint UI relies on python for processing. If you already have Python installed, you can skip ahead to the next step. 
 
-Mac OSX:
+**Mac OSX:**
 
 .. code-block:: bash
     sudo brew install python
@@ -46,7 +46,7 @@ If you do not have homebrew installed, open up terminal and type:
 Installing homebrew may take a few minutes.
 
 
-Windows:
+**Windows:**
 
 Download and install the Python IDE using the link below:
 
