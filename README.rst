@@ -94,9 +94,17 @@ After having successfully installed skeleprint_ui package simply open up termina
 
     import skeleprint_ui
 
-A shortcut will be created on your desktop with the filename : SkelePrint_UI.pyc 
+A shortcut will be created on your desktop with the filename : SkelePrint_UI.pyc.
 
-You can now execute this file to run the tool path generator. 
+You can set this file to open with Python. You can now run this file to run the tool path generator using python. 
+
+Updating SkelePrint UI
+----------------------
+
+You can update your version of Skeleprint UI by opening terminal or command prompt and typing:
+
+.. code-block:: bash
+    pip install --upgrade skeleprint_ui
 
 Meta
 ====
