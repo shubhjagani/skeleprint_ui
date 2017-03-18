@@ -28,6 +28,7 @@ def vp_start_gui():
     tpg_gui_support.set_Tk_var()
     top = Tool_Path_Generator (root)
     tpg_gui_support.init(root, top)
+    root.minsize(900, 700)
     root.mainloop()
 
 w = None
@@ -46,6 +47,7 @@ def destroy_Tool_Path_Generator():
     w.destroy()
     w = None
 
+
 class Tool_Path_Generator:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
@@ -60,19 +62,19 @@ class Tool_Path_Generator:
         font11 = "-size 15 -weight normal -slant roman "  \
             "-underline 0 -overstrike 0"
 
-        top.geometry("1200x900+404+92")
+        top.geometry("900x800+404+92")
         top.title("SkelePrint Tool Path Generator")
         top.configure(background="#e6e6e6")
         top.configure(highlightbackground="#e6e6e6")
         top.configure(highlightcolor="black")
         
-        tpg_gui_support.axial_length.set(200)
-        tpg_gui_support.printbed_diameter.set(10)
-        tpg_gui_support.final_diameter.set(20)
-        tpg_gui_support.filament_width_og.set(1)
-        tpg_gui_support.helix_angle.set(0)
-        tpg_gui_support.smear_factor.set(100)
-        tpg_gui_support.feedrate.set(1000)
+        tpg_gui_support.axial_length.set(200.0)
+        tpg_gui_support.printbed_diameter.set(10.0)
+        tpg_gui_support.final_diameter.set(11.0)
+        tpg_gui_support.filament_width_og.set(0.41)
+        tpg_gui_support.helix_angle.set(60.0)
+        tpg_gui_support.smear_factor.set(100.0)
+        tpg_gui_support.feedrate.set(1300.0)
 
 
 
@@ -81,27 +83,8 @@ class Tool_Path_Generator:
         self.Label7.configure(background="#e6e6e6")
         self.Label7.configure(font=font11)
         self.Label7.configure(foreground="#000000")
-        self.Label7.configure(text='''SkelePrint Tool Path Generator 1.0''')
-
-        self.Button1 = Button(top)
-        self.Button1.place(relx=0.3, rely=0.82, relheight=0.1, relwidth=0.4)
-        self.Button1.configure(activebackground="#e6e6e6")
-        self.Button1.configure(activeforeground="#e6e6e6")
-        self.Button1.configure(background="#e6e6e6")
-        self.Button1.configure(command=lambda: tpg_gui_support.tpg(tpg_gui_support.axial_length.get(), tpg_gui_support.filament_width_og.get(), tpg_gui_support.printbed_diameter.get(), tpg_gui_support.final_diameter.get(), tpg_gui_support.helix_angle.get(), tpg_gui_support.smear_factor.get(), tpg_gui_support.feedrate.get()))
-        self.Button1.configure(foreground="#000000")
-        self.Button1.configure(highlightbackground="#e6e6e6")
-        self.Button1.configure(highlightcolor="black")
-        self.Button1.configure(relief=RAISED)
-        self.Button1.configure(text='''Generate G Code''')
-
-        self.Label8 = Label(top)
-        self.Label8.place(relx=0.3, rely=0.9, relheight=0.1, relwidth=0.4)
-        self.Label8.configure(background="#e6e6e6")
-        self.Label8.configure(foreground="#000000")
-        self.Label8.configure(text='''G Code file will be saved on your Desktop under:
-"gcode/timestamp_skeleprint_gcode.gcode"''')
-
+        self.Label7.configure(text='''SkelePrint Tool Path Generator''')
+        
         self.Labelframe1 = LabelFrame(top)
         self.Labelframe1.place(relx=0.03, rely=0.06, relheight=0.78
                 , relwidth=0.46)
@@ -113,8 +96,6 @@ class Tool_Path_Generator:
         self.Labelframe1.configure(highlightcolor="black")
         self.Labelframe1.configure(width=370)
         
-        
-
         self.axial_length = Entry(self.Labelframe1)
         self.axial_length.place(relx=0.41, rely=0.06, relheight=0.04
                 , relwidth=0.34)
@@ -248,7 +229,7 @@ class Tool_Path_Generator:
         self.Label8.configure(highlightcolor="black")
         self.Label8.configure(text='''Filament Width''')
 
-        self.tip = Label(self.Labelframe1, width=317, height=350)  
+        self.tip = Label(self.Labelframe1, width=300, height=300)  
 
         __location__ = os.path.realpath(
         os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -327,30 +308,27 @@ class Tool_Path_Generator:
         self.Scale1.configure(variable=tpg_gui_support.smear_factor)
 
         self.Label8 = Label(self.Labelframe2)
-        self.Label8.place(relx=0.01, rely=0.13, relheight=0.04, relwidth=0.3)
+        self.Label8.place(relx=0.01, rely=0.12, relheight=0.06, relwidth=0.3)
         self.Label8.configure(background="#e6e6e6")
         self.Label8.configure(foreground="#000000")
-        self.Label8.configure(text='''Feedrate''')
+        self.Label8.configure(text='''Feedrate 
+(from flowrate)''')
 
-        self.Scale2 = Scale(self.Labelframe2)
-        self.Scale2.place(relx=0.32, rely=0.1, relwidth=0.42, relheight=0.0
-                , height=39)
-        self.Scale2.configure(activebackground="#e6e6e6")
-        self.Scale2.configure(background="#e6e6e6")
-        self.Scale2.configure(font="TkTextFont")
-        self.Scale2.configure(foreground="#000000")
-        self.Scale2.configure(from_="250.0")
-        self.Scale2.configure(highlightbackground="#d9d9d9")
-        self.Scale2.configure(highlightcolor="black")
-        self.Scale2.configure(length="152")
-        self.Scale2.configure(orient="horizontal")
-        self.Scale2.configure(resolution="50.0")
-        self.Scale2.configure(to="2500.0")
-        self.Scale2.configure(troughcolor="#d9d9d9")
-        self.Scale2.configure(variable=tpg_gui_support.feedrate)
+
+        self.Entry6 = Entry(self.Labelframe2)
+        self.Entry6.place(relx=0.32, rely=0.13, relwidth=0.34, relheight=0.04)
+        self.Entry6.configure(background="white")
+        self.Entry6.configure(font="TkFixedFont")
+        self.Entry6.configure(foreground="#000000")
+        self.Entry6.configure(highlightbackground="#e6e6e6")
+        self.Entry6.configure(highlightcolor="black")
+        self.Entry6.configure(insertbackground="black")
+        self.Entry6.configure(selectbackground="#c4c4c4")
+        self.Entry6.configure(selectforeground="black")
+        self.Entry6.configure(textvariable=tpg_gui_support.feedrate)
 
         self.Label12 = Label(self.Labelframe2)
-        self.Label12.place(relx=0.76, rely=0.13, height=21, width=58)
+        self.Label12.place(relx=0.68, rely=0.13, height=21, width=58)
         self.Label12.configure(activebackground="#e6e6e6")
         self.Label12.configure(activeforeground="black")
         self.Label12.configure(background="#e6e6e6")
@@ -381,27 +359,14 @@ class Tool_Path_Generator:
 default = 100% (ie. layer height = filament width)''')
         self.Label13.configure(width=305)
 
-        self.tip2 = Label(self.Labelframe2, width=300, height=91)  
-
-        img2 = Image.open(os.path.join(__location__, 'theta.jpg'))
-        two = ImageTk.PhotoImage(img2)        
-
-        self.tip2 = Label(self.Labelframe2, image=two)
-        self.tip2.image = two
-        self.tip2.configure(background="#e6e6e6")
-        self.tip2.place(relx=0.1,rely=0.35) 
-
-
         self.Message1 = Message(self.Labelframe2)
-        self.Message1.place(relx=0.01, rely=0.5, relheight=0.5, relwidth=0.8)
+        self.Message1.place(relx=0.1, rely=0.52, relheight=0.4, relwidth=0.8)
         self.Message1.configure(anchor=N)
         self.Message1.configure(background="#e6e6e6")
         self.Message1.configure(foreground="#000000")
         self.Message1.configure(highlightbackground="#e6e6e6")
         self.Message1.configure(highlightcolor="black")
-        self.Message1.configure(text='''
-
-Helix Angle Conditions: 
+        self.Message1.configure(text='''Helix Angle Conditions: 
 If the angle is > 90, it will be set to 90 degrees
 
 If angle is < 0, it will be set to 0 degrees
@@ -411,7 +376,35 @@ If angle = 0, the layer will consist of a single helix printed as close together
 If angle = 90, the layer will consist of many straight lines''')
         self.Message1.configure(width=334)
 
+        self.tip2 = Label(self.Labelframe2, width=300, height=91)  
+
+        img2 = Image.open(os.path.join(__location__, 'theta.jpg'))
+        two = ImageTk.PhotoImage(img2)        
+
+        self.tip2 = Label(self.Labelframe2, image=two)
+        self.tip2.image = two
+        self.tip2.configure(background="#e6e6e6")
+        self.tip2.place(relx=0.1,rely=0.35) 
         
+        self.Label8 = Label(top)
+        self.Label8.place(relx=0.3, rely=0.88, relheight=0.1, relwidth=0.4)
+        self.Label8.configure(background="#e6e6e6")
+        self.Label8.configure(foreground="#000000")
+        self.Label8.configure(text='''G Code file will be saved on your Desktop under:
+"gcode/timestamp_skeleprint_gcode.gcode"''')
+
+        self.Button1 = Button(top)
+        self.Button1.place(relx=0.3, rely=0.85, relheight=0.05, relwidth=0.4)
+        self.Button1.configure(activebackground="#e6e6e6")
+        self.Button1.configure(activeforeground="#e6e6e6")
+        self.Button1.configure(background="#e6e6e6")
+        self.Button1.configure(command=lambda: tpg_gui_support.tpg(tpg_gui_support.axial_length.get(), tpg_gui_support.filament_width_og.get(), tpg_gui_support.printbed_diameter.get(), tpg_gui_support.final_diameter.get(), tpg_gui_support.helix_angle.get(), tpg_gui_support.smear_factor.get(), tpg_gui_support.feedrate.get()))
+        self.Button1.configure(foreground="#000000")
+        self.Button1.configure(highlightbackground="#e6e6e6")
+        self.Button1.configure(highlightcolor="black")
+        self.Button1.configure(relief=RAISED)
+        self.Button1.configure(text='''Generate G Code''')
+
         self.menubar = Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
         top.configure(menu = self.menubar)
 

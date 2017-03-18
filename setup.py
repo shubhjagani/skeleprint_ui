@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='skeleprint_ui',
-      version='1.8',
+      version='1.10',
       description='SkelePrint Tool Path Generator',
       url='http://github.com/shubhjagani/skeleprint_ui',
       author='Shubh Jagani',

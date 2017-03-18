@@ -96,7 +96,8 @@ After having successfully installed skeleprint_ui package simply open up termina
 
 A shortcut will be created on your desktop with the filename : SkelePrint_UI.pyc.
 
-You can set this file to open with Python. You can now run this file to run the tool path generator using python. 
+If you set this file to open with a Python IDE, you can now just open this file to run the tool path generator GUI. 
+
 
 Updating SkelePrint UI
 ----------------------
@@ -105,6 +106,85 @@ You can update your version of Skeleprint UI by opening terminal or command prom
 
 .. code-block:: bash
     pip install --upgrade skeleprint_ui
+
+Make sure you are running on the newest version of the tool path generator by checking `git`_
+
+
+Usage
+=====
+
+Axial Length
+------------
+
+The axial length (mm) is equal to the total length of the print. Usually that means it is the same as the axial length of the printbed (220 mm). This can be changed if you would like to print shorter or longer helixes. The maximum traversable distance on the axial axis is approximately 280 mm, although it is not recommended to max out the axial travel as it makes it much harder to remove the print. 
+
+Printbed Diameter
+-----------------
+
+The printbed diameter (mm) is equal to the diameter of the mandrel (10 mm). This value is fairly constant, but may need to be modified if the mandrel is coated in something or if you are using a different mandrel.
+
+Final Print Diameter
+--------------------
+
+The final print diameter (mm) is equal to the final diameter of the print you would like to produce including the diameter of the printbed. 
+
+Based on the value provided for the final print diameter the algorithm checks how many layers to print using the following logic:
+
+.. code-block:: python
+    layers = ((final_diameter - printbed_diameter)*0.5)/(filament_width * smear_factor)
+    if (layers < 1):
+        layers = 1.0
+
+Filament Width
+--------------
+
+The filament width (mm) is equal to the inner diameter of the needle tip used. You can lookup the inner diameter of the needle gauge size on `this table`_
+
+Helix Angle
+-----------
+
+The helix angle (degrees) is angle of the helix on each layer. This value is used to determine how many start points are required for each layer. It is often not possible to print at the exact angle you specified as the the number of start point must be a whole number. The algorithm take the value provided for the helix angle and adjusts it slightly to ensure the number of start point is a whole number. 
+
+Helix Angle Conditions:
+
+The helix angle has to be between [0,90] degrees. 
+
+If the angle entered is greater 90 degrees, it will be set to 90 degrees. This means that layers will consist of many (almost) straight lines and have many start points. 
+
+If angle entered is less than 0 degrees, it will be set to 0 degrees. This means that layers will consist of a single helix printed as close together as possible.
+
+Feedrate
+--------
+
+The feedrate (mm/min) is equal to the speed of movement based on flow rate of the extrusion system. 
+
+This feedrate should be calculated in the lab as follows:
+
+flow rate = mL/s = cm^3/s
+
+cross sectional area of nozzel = mm^2 
+
+feed rate = flow rate/area = mm/s * 60  = mm/min
+
+When this value is input into the GUI the algorithm uses it to calculate the tangential velocity using the folling algorithm:
+
+
+.. code-block:: python
+    hypotenuse = (math.pi * diameter) / math.cos(theta)
+    time = hypotenuse/feedrate
+    angular_velocity = (2 * math.pi)/time
+    tangential_velocity = angular_velocity * (diameter/2) 
+
+This value is re-calculated at each layer as the diameter changes at each layer.
+
+Layer Height %
+--------------
+
+The layer height % is used to calculate the smear factor. At 100% the layer height is equal to the filament width. If layer height % is less than 100% then the radial axis only moves up some percentage of the filament width which means you are smearing the ink. 
+
+I would take extra care when messing with this. 
+
+
 
 Meta
 ====
@@ -123,6 +203,8 @@ Authors
 
 .. _pip: https://pip.pypa.io/en/stable/installing/
 .. _Python IDE: https://www.python.org/downloads/release/python-2713/
+.. _git: https://github.com/shubhjagani/skeleprint_ui
+.. _this table: http://www.sigmaaldrich.com/chemistry/stockroom-reagents/learning-center/technical-library/needle-gauge-chart.html
 .. _get-pip.py: https://bootstrap.pypa.io/get-pip.py
 .. _SkelePrint: http://skeleprint.ca
 
