@@ -130,7 +130,7 @@ The final print diameter (mm) is equal to the final diameter of the print you wo
 
 Based on the value provided for the final print diameter the algorithm checks how many layers to print using the following logic:
 
-.. code-block:: python
+.. code-block:: 
     layers = ((final_diameter - printbed_diameter)*0.5)/(filament_width * smear_factor)
     if (layers < 1):
         layers = 1.0
@@ -169,7 +169,8 @@ feed rate = flow rate/area = mm/s * 60  = mm/min
 When this value is input into the GUI the algorithm uses it to calculate the tangential velocity using the folling algorithm:
 
 
-.. code-block:: python
+.. code-block:: 
+
     hypotenuse = (math.pi * diameter) / math.cos(theta)
     time = hypotenuse/feedrate
     angular_velocity = (2 * math.pi)/time
