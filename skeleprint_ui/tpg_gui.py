@@ -70,9 +70,9 @@ class Tool_Path_Generator:
         
         tpg_gui_support.axial_length.set(200.0)
         tpg_gui_support.printbed_diameter.set(10.0)
-        tpg_gui_support.final_diameter.set(11.0)
+        tpg_gui_support.final_diameter.set(15.0)
         tpg_gui_support.filament_width_og.set(0.41)
-        tpg_gui_support.helix_angle.set(60.0)
+        tpg_gui_support.helix_angle.set(45.0)
         tpg_gui_support.smear_factor.set(100.0)
         tpg_gui_support.feedrate.set(1300.0)
 
