@@ -223,9 +223,9 @@ def end_gcode():
     commands.append("; End g code")
     #print "\n".join(commands)
     
-    timestr = time.strftime("%Y:%m:%d-%H_%M_%S")
+    timestr = time.strftime("%d_%m-%H_%M_%S")
     
-    loc = os.path.join(os.path.expanduser("~"), "Desktop/gcode")
+    loc = os.path.join(os.path.expanduser("~"), os.path.join('Desktop', 'gcode'))
     filename = timestr+'_skeleprint.gcode'
 
     if not os.path.exists(loc):
@@ -236,7 +236,7 @@ def end_gcode():
             if exc.errno != errno.EEXIST:
                 raise
     
-    with open(loc+"/"+filename, "w") as file:
+    with open(os.path.join(loc, filename), "w") as file:
         file.write("\n".join(commands))
 
 
@@ -362,8 +362,3 @@ def tpg(axial_travel, filament_width_og, printbed_diameter, final_diameter, heli
 if __name__ == '__main__':
     import tpg_gui
     tpg_gui.vp_start_gui()
-
-
-
-
-
