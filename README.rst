@@ -210,17 +210,17 @@ NOTE: Axial Axis = X Axis, Rotational Axis = Y Axis, Radial Axis = Z Axis.
 
 8. Now we will home the printer. YOU MUST HOME THE PRINTER BEFORE EVERY USE. To home the printer, click into the "Command:" field and enter "$H" (without quotes). You can also just press the $H button near the top. The printer should start moving the axial axis toward the right hand side and perform the homing routine. 
 
-If you want to continue from the current position without homing you can enter the command "$X" which will bypass the alarm set your current position as (0, 0, 0). But it is highly recommended that you home the printer every time you connect to it. 
+8.1 If you want to continue from the current position without homing you can enter the command "$X" which will bypass the alarm set your current position as (0, 0, 0). But it is highly recommended that you home the printer every time you connect to it. 
 
-NOTE: After homing is complete the positive x-direction is left (<---) and the positive radial direction is set to up.
+NOTE: After homing is complete the positive x direction is left (<--) and the positive radial direction is set to up.
 
 9. The axial axis is now homed. However you still need to manually calibrate the radial axis. You can do this by giving gcode commands such as "Z -10.3" (move down 10.3 mm), or using the direction button on the right hand side. Once you have calibrated the radial axis you need to set this position as 0 by clicking the "Reset Z Axis" button near the top (if you forget part it is okay because the gcode from the gcode generator will take care of it anyway).
 
-You can now make any adjustments you need by giving direct gcode commands such as "X10 Y10 Z3.57" (move 10mm in the positive x direction, make one rotation of the printbed [10mm = 1 rotation], and move z-axis up 3.57 mm)
+9.1 You can now make any adjustments you need by giving direct gcode commands such as "X10 Y10 Z3.57" (move 10mm in the positive x direction, make one rotation of the printbed [10mm = 1 rotation], and move z-axis up 3.57 mm)
 
 10. To start printing click browse under the "File" section on the left hand side and find the gcode you produced (should be saved on your desktop in a folder named "gcode"). When you are ready hit send to start printing! 
 
-Hitting pause will pause the print and the gcode, but if you hit cancel you will lose your place. 
+10.1 Hitting pause will pause the print and the gcode, but if you hit cancel you will lose your place. 
 
 
 G Code Crash Course
@@ -253,10 +253,7 @@ $X - Bypass alarm
 $$ - View defaults
 
 More detailed info can be found here: https://www.shapeoko.com/wiki/index.php/G-Code
-
-
-
-  
+ 
 
 Meta
 ====
