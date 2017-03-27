@@ -226,31 +226,31 @@ NOTE: After homing is complete the positive x direction is left (<--) and the po
 G Code Crash Course
 -------------------
 
-G0 - Linear move. This is used to move or jog, not to print
+G0 - Linear move. This is used to move or job, not to print. Using a G0 command changes the work position so remember to reset your position after you have finished adjusting.
 
-G1 - Linear move used to print. You can set the speed by setting the feedrate. "G1 F300" will move at 300 mm/min
+G1 - Linear move used to print. You can set the speed by setting the feedrate. "G1 F300" will move at 300 mm/min. Only need to define this once, any moves sent afterwards will move at previously defined feedrate. 
 
-X, Y, Z - Move the axial axis. Used in congunction with G0 or G1 commands. "G1 F300 X10 Y30 Z4"
+X, Y, Z - Move the respective axis. Used in congunction with G0 or G1 commands. "G1 F300 X10 Y30 Z4". If you give a move command without adding G1 it will make a G0 move. Ex. Sending "X120" is the same as sending "G0 X120".
 
-M7 - Turn on UV laser
+M7 - Turn on UV laser. (currently not connected)
 
-M8 - Start extruding 
+M8 - Start extruding. (currently not connected)
 
-M9 - Stop extruding + turn off UV laser 
+M9 - Stop all external machines. (Stop extruding + turn off UV laser).  
 
-G10 P0 L20 X0 Y0 Z0 - Reset X, Y, Z axis coordinates to (0,0,0)
+G10 P0 L20 X0 Y0 Z0 - Reset X, Y, Z axis coordinates to (0,0,0).
 
-G21 - Set units to mm
+G21 - Set units to mm.
 
-G90 - Set printer to operate in absolute distance mode
+G90 - Set printer to operate in absolute distance mode.
 
-G94 - Set units per minute feed rate mode
+G94 - Set units per minute feed rate mode.
 
-$H - Start homing cycle 
+$H - Start homing cycle.
 
-$X - Bypass alarm 
+$X - Bypass alarm.
 
-$$ - View defaults
+$$ - View defaults.
 
 More detailed info can be found here: https://www.shapeoko.com/wiki/index.php/G-Code
  
