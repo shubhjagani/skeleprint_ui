@@ -253,7 +253,13 @@ $X - Bypass alarm.
 $$ - View defaults.
 
 More detailed info can be found here: https://www.shapeoko.com/wiki/index.php/G-Code
- 
+
+Supplementary Software
+======================
+
+You should download the entire supplementary software folder. It is home to all the source code for the GRBL firmware, the firmware and tuning software for the Mechaduino PCBs, and the G Code sender program which sends G Code to the Arduino.  
+
+
 
 Meta
 ====
